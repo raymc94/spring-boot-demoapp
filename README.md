@@ -7,7 +7,6 @@ Aplicación básica usando Spring Boot y plantillas Thymeleaf.
 Necesitas tener instalado en tu sistema:
 
 - Java 8
-- Maven
 
 ## Ejecución
 
@@ -15,13 +14,13 @@ Puedes ejecutar la aplicación usando el _goal_ `run` del _plugin_ Maven
 de Spring Boot:
 
 ```
-$ mvn spring-boot:run 
+$ ./mvnw spring-boot:run 
 ```   
 
 También puedes generar un `jar` y ejecutarlo:
 
 ```
-$ mvn package
+$ ./mvnw package
 $ java -jar target/demoapp-0.0.1-SNAPSHOT.jar 
 ```
 

@@ -14,9 +14,4 @@ public class HomeController {
     	return "redirect:/login";
     }
     
-    @GetMapping("/login")
-    public String loginForm(Model model) {
-        model.addAttribute("userData", new UserData());
-        return "login";
-    }
 }

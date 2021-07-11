@@ -1,14 +1,22 @@
 package demoapp.controller;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import pojo.UserData;
 
 @Controller
 public class HomeController {
 
-    @RequestMapping("/")
-    public @ResponseBody String greeting() {
-        return "Hello World";
+    @GetMapping("/")
+    public String greeting() {
+    	return "redirect:/login";
+    }
+    
+    @GetMapping("/login")
+    public String loginForm(Model model) {
+        model.addAttribute("userData", new UserData());
+        return "login";
     }
 }

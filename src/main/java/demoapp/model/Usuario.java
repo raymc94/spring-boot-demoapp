@@ -2,13 +2,16 @@ package demoapp.model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -32,6 +35,9 @@ public class Usuario implements Serializable {
     @Column(name = "fecha_nacimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaNacimiento;
+    
+    @OneToMany(mappedBy = "idUsuario")
+    private Set<RecetaFavorita> recetasFavoritas = new HashSet<RecetaFavorita>();
 
     // Definimos el tipo de fetch como EAGER para que
     // cualquier consulta que devuelve un usuario rellene automáticamente
@@ -114,6 +120,18 @@ public class Usuario implements Serializable {
 
 	public void setBloqueado(Boolean bloqueado) {
 		this.bloqueado = bloqueado;
+	}
+	
+	public Set<RecetaFavorita> getRecetasFavoritas() {
+		return recetasFavoritas;
+	}
+
+	public void setRecetasFavoritas(Set<RecetaFavorita> recetasFavoritas) {
+		this.recetasFavoritas = recetasFavoritas;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	@Override

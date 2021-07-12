@@ -2,6 +2,7 @@ package demoapp.model;
 
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -74,4 +75,18 @@ public class Receta implements Serializable {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Receta receta = (Receta) o;
+        if (id != null && receta.id != null) {
+        	return Objects.equals(id, receta.id);
+        }
+            
+        // sino comparamos por campos obligatorios
+        return false;
+	}
+	
+	
 }

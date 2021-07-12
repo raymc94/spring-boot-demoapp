@@ -19,14 +19,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import demoapp.model.Producto;
 import demoapp.model.ProductoReceta;
 import demoapp.model.Receta;
+import demoapp.model.RecetaFavorita;
 import demoapp.model.Usuario;
 import demoapp.service.ProductoRecetaService;
 import demoapp.service.ProductoService;
+import demoapp.service.RecetaFavoritaService;
 import demoapp.service.RecetaService;
 import demoapp.service.UsuarioService;
 import pojo.ProductoRecetaData;
 import pojo.ProductoRecetaId;
 import pojo.RecetaData;
+import pojo.RecetaFavoritaId;
 
 @Controller
 public class MainboardController {
@@ -41,6 +44,9 @@ public class MainboardController {
 	ProductoRecetaService productoRecetaService;
 	
 	@Autowired
+	RecetaFavoritaService recetaFavoritaService;
+	
+	@Autowired
 	ProductoService productoService;
 	
     @GetMapping("/mainboard")
@@ -53,9 +59,12 @@ public class MainboardController {
     	} 
     	
     	List<Receta> recetas = recetaService.allRecetasUsuario(user.getId());
+    	List<Receta> recetasFavoritas = new ArrayList<Receta>();
+    	user.getRecetasFavoritas().forEach(r -> recetasFavoritas.add(r.getIdReceta()));
     	model.addAttribute("usuario", user);
     	model.addAttribute("filterMode", 1);
     	model.addAttribute("recetas", recetas);
+    	model.addAttribute("recetasFavoritas", recetasFavoritas);
     	
     	
         return "listaRecetas";
@@ -71,9 +80,32 @@ public class MainboardController {
     	} 
     	
     	List<Receta> recetas = recetaService.allRecetasPublicas();
+    	List<Receta> recetasFavoritas = new ArrayList<Receta>();
+    	user.getRecetasFavoritas().forEach(r -> recetasFavoritas.add(r.getIdReceta()));
     	model.addAttribute("usuario", user);
     	model.addAttribute("filterMode", 2);
     	model.addAttribute("recetas", recetas);
+    	model.addAttribute("recetasFavoritas", recetasFavoritas);
+    	
+    	
+        return "listaRecetas";
+    }
+    
+    @GetMapping("/recetas/favoritas")
+    public String listaRecetasFavoritas(Model model, HttpSession session) {
+    	
+    	Usuario user = usuarioService.checkUsuarioLogeado(session);
+
+    	if (user == null) {
+    		return "redirect:/login";
+    	} 
+    	
+    	List<Receta> recetas = new ArrayList<Receta>();
+    	user.getRecetasFavoritas().forEach(r -> recetas.add(r.getIdReceta()));
+    	model.addAttribute("usuario", user);
+    	model.addAttribute("filterMode", 3);
+    	model.addAttribute("recetas", recetas);
+    	model.addAttribute("recetasFavoritas", recetas);
     	
     	
         return "listaRecetas";
@@ -163,7 +195,79 @@ public class MainboardController {
         
         return "overviewReceta";
     }
-    ///recetas/{id}/ingrediente/nuevo(id=${receta.id}
+
+    @GetMapping("/recetas/{id}/favorita/{origen}")
+    public String agregaFavorito(@PathVariable(value="id") Long idReceta, @PathVariable(value="origen") Integer origen,
+                                 Model model, HttpSession session) {
+
+        Receta receta = recetaService.findById(idReceta);
+        
+        if (receta == null) {
+           return "redirect:/mainboard";
+        }
+
+        Usuario usuario = usuarioService.checkUsuarioLogeado(session);
+        
+        if (usuario == null) {
+        	return "redirect:/login";
+        }
+        
+        RecetaFavorita recetaFavorita = new RecetaFavorita();
+        RecetaFavoritaId favId = new RecetaFavoritaId();
+        favId.setIdReceta(receta.getId());
+        favId.setIdUsuario(usuario.getId());
+        recetaFavorita.setId(favId);
+        recetaFavorita.setIdReceta(receta);
+        recetaFavorita.setIdUsuario(usuario);
+        
+        recetaFavoritaService.nuevaRecetaFavorita(recetaFavorita);
+        
+        if(origen == 3) {
+        	return "redirect:/recetas/favoritas";
+        } else if (origen == 2) {
+        	return "redirect:/recetas/publicas";
+        } else {
+        	return "redirect:/mainboard";
+        }
+    }
+    
+    @GetMapping("/recetas/{id}/favorita/quitar/{origen}")
+    public String quitaFavorito(@PathVariable(value="id") Long idReceta, @PathVariable(value="origen") Integer origen,
+                                 Model model, HttpSession session) {
+
+        Receta receta = recetaService.findById(idReceta);
+        
+        if (receta == null) {
+           return "redirect:/mainboard";
+        }
+
+        Usuario usuario = usuarioService.checkUsuarioLogeado(session);
+        
+        if (usuario == null) {
+        	return "redirect:/login";
+        }
+        
+        RecetaFavorita recetaFavorita = new RecetaFavorita();
+        RecetaFavoritaId favId = new RecetaFavoritaId();
+        favId.setIdReceta(receta.getId());
+        favId.setIdUsuario(usuario.getId());
+        recetaFavorita.setId(favId);
+        recetaFavorita.setIdReceta(receta);
+        recetaFavorita.setIdUsuario(usuario);
+        
+        recetaFavoritaService.borraRecetaFavorita(recetaFavorita);
+        
+        if(origen == 3) {
+        	return "redirect:/recetas/favoritas";
+        } else if (origen == 2) {
+        	return "redirect:/recetas/publicas";
+        } else {
+        	return "redirect:/mainboard";
+        }
+        
+    }
+    
+    
     @GetMapping("/recetas/{id}/ingrediente/nuevo")
     public String addIngredienteAReceta(@PathVariable(value="id") Long idReceta, @ModelAttribute ProductoRecetaData productoRecetaData,
                                  Model model, HttpSession session) {

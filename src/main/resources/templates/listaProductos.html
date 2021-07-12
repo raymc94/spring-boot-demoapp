@@ -9,7 +9,7 @@
 
     <div class="row mt-3">
         <div class="col">
-            <h2 th:text="'Listado de recetas de ' + ${usuario.nombre}"></h2>
+            <h2>Listado de productos</h2>
         </div>
     </div>
 
@@ -19,20 +19,22 @@
                 <thead>
                 <tr>
                     <th>Nombre</th>
-                    <th>Acción</th>
+                    <th>Unidad</th>
+                    <th  th:if="${isAdmin == true}" >Acción</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="producto: ${productos}">
                     <td th:text="${producto.nombre}"></td>
-                    <td><a class="btn btn-primary btn-xs" th:href="@{/productos/{id}/editar(id=${producto.id})}"/>editar</a>
+                    <td th:text="${producto.unidad}"></td>
+                    <td  th:if="${isAdmin == true}" ><a class="btn btn-primary btn-xs" th:href="@{/productos/{id}/editar(id=${producto.id})}"/>editar</a>
                         <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
                            th:onclick="'del(\'/productos/' + ${producto.id} + '\')'">borrar</button>
-                    </td>
+                    </td >
                 </tr>
                 </tbody>
             </table>
-            <p><a class="btn btn-primary" th:href="@{/productos/nueva}"> Nuevo producto</a>
+            <p><a th:if="${isAdmin == true}" class="btn btn-primary" th:href="@{/productos/nuevo}"> Nuevo producto</a>
             <a class="btn btn-link" href="/logout">Salir</a></p>
         </div>
     </div>

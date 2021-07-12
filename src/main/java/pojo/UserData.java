@@ -9,6 +9,7 @@ public class UserData {
 	private String email;
 	private String password;
 	private String name;
+	private Boolean administrador;
 	
 	@DateTimeFormat(pattern = "dd-MM-yyyy")
     private Date fechaNacimiento;
@@ -44,5 +45,12 @@ public class UserData {
 	public void setFechaNacimiento(Date fechaNacimiento) {
 		this.fechaNacimiento = fechaNacimiento;
 	}
+	public Boolean getAdministrador() {
+		return administrador;
+	}
+	public void setAdministrador(Boolean administrador) {
+		this.administrador = administrador;
+	}
+	
 	
 }

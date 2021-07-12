@@ -19,8 +19,8 @@ public class Producto implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @NotNull
-    private String nombre;
     private String unidad;
+    private String nombre;
 	public Long getId() {
 		return id;
 	}

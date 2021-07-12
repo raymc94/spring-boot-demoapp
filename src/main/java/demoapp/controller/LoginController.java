@@ -1,5 +1,8 @@
 package demoapp.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -13,10 +16,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import demoapp.model.Producto;
 import demoapp.model.Usuario;
 import demoapp.service.UsuarioService;
-import pojo.ProductoData;
+import demoapp.service.UsuarioService.LoginStatus;
 import pojo.UserData;
 
 @Controller
@@ -49,6 +51,9 @@ public class LoginController {
             return "login";
         } else if (loginStatus == UsuarioService.LoginStatus.ERROR_PASSWORD) {
             model.addAttribute("error", "Contraseña incorrecta");
+            return "login";
+        } else if (loginStatus == UsuarioService.LoginStatus.ERROR_USER_BLOCK) {
+        	model.addAttribute("error", "Usuario bloqueado");
             return "login";
         }
         
@@ -137,6 +142,77 @@ public class LoginController {
         return "redirect:/productos";
     }
     
+    @GetMapping("/usuarios")
+    public String listadoUsuarios(Model model, HttpSession session) {
+    	
+    	Usuario user = usuarioService.checkUsuarioLogeado(session);
+
+    	if (user == null) {
+    		return "redirect:/login";
+    	} 
+    	
+    	if(!user.getAdministrador()) {
+    		return "redirect:/mainboard";
+    	}
+    	
+    	List<Usuario> usuarios = new ArrayList<Usuario>();
+    	
+    	usuarioService.findAllUsuarios().forEach(usuarios::add);
+    	model.addAttribute("usuario", user);
+    	model.addAttribute("isAdmin", user.getAdministrador());
+    	model.addAttribute("usuarios", usuarios);
+    	
+    	
+        return "listaUsuarios";
+    }
+    
+    @GetMapping("/usuarios/{id}/bloquea")
+    public String bloqueaUsuario(@PathVariable(value="id") Long idUserLock, Model model, HttpSession session) {
+    	
+    	Usuario user = usuarioService.checkUsuarioLogeado(session);
+
+    	if (user == null) {
+    		return "redirect:/login";
+    	} 
+    	
+    	if(!user.getAdministrador()) {
+    		return "redirect:/mainboard";
+    	}
+
+
+    	Usuario userLock = usuarioService.findById(idUserLock);
+    	
+    	if(userLock != null) {
+    		userLock.setBloqueado(true);
+    		usuarioService.actualizar(userLock);
+    	}
+    	
+        return "redirect:/usuarios";
+    }
+    
+    @GetMapping("/usuarios/{id}/desbloquea")
+    public String desbloqueaUsuario(@PathVariable(value="id") Long idUserLock, Model model, HttpSession session) {
+    	
+    	Usuario user = usuarioService.checkUsuarioLogeado(session);
+
+    	if (user == null) {
+    		return "redirect:/login";
+    	} 
+    	
+    	if(!user.getAdministrador()) {
+    		return "redirect:/mainboard";
+    	}
+
+
+    	Usuario userLock = usuarioService.findById(idUserLock);
+    	
+    	if(userLock != null) {
+    		userLock.setBloqueado(false);
+    		usuarioService.actualizar(userLock);
+    	}
+    	
+        return "redirect:/usuarios";
+    }
     
     
     

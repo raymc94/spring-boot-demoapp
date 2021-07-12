@@ -15,6 +15,8 @@
 
     <div class="row mt-3">
         <div class="col">
+            <p><a th:if="${filterMode == 1}" class="btn btn-primary" th:href="@{/recetas/publicas}"> Recetas publicas</a>
+        	<a  th:if="${filterMode == 2}" class="btn btn-primary" th:href="@{/mainboard}"> Mis Recetas</a>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -25,10 +27,11 @@
                 <tbody>
                 <tr th:each="receta: ${recetas}">
                     <td> <a th:href="@{/recetas/{id}/overview(id=${receta.id})}" th:text="${receta.nombre}"/></td>
-                    <td><a class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/editar(id=${receta.id})}"/>editar</a>
+                    <td th:if="${receta.idOwner == usuario.id}"   ><a class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/editar(id=${receta.id})}"/>editar</a>
                         <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
                            th:onclick="'del(\'/recetas/' + ${receta.id} + '\')'">borrar</button>
                     </td>
+                    <td th:if="${receta.idOwner != usuario.id}"></td>
                 </tr>
                 </tbody>
             </table>

@@ -1,5 +1,6 @@
 INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'rmc84@ua', 'Ruben Munoz', '123', '1994-04-18');
 INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('1', 'receta1', 'prueba receta1', '1', '1');
+INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('4', 'recetaPub', 'prueba receta1', '1', '2');
 INSERT INTO producto (id, nombre, unidad) VALUES('1', 'leche', 'ml');
 INSERT INTO producto (id, nombre, unidad) VALUES('2', 'lentejas', 'gr');
 INSERT INTO producto (id, nombre, unidad) VALUES('3', 'arroz', 'gr');
@@ -12,3 +13,10 @@ INSERT INTO producto (id, nombre, unidad) VALUES('9', 'patata', 'piezas');
 INSERT INTO producto_receta (id_producto, id_receta, valor) VALUES('1', '1', '250');
 INSERT INTO producto_receta (id_producto, id_receta, valor) VALUES('2', '1', '250');
 INSERT INTO producto_receta (id_producto, id_receta, valor) VALUES('4', '1', '600');
+INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('2', 'rmc84@ub', 'Ruben Munoz', '123', '1994-04-18');
+INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('2', 'receta2', 'prueba receta2', '2', '2');
+INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('5', 'recetaPub3', 'prueba receta2', '2', '2');
+INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('6', 'recetaPub4', 'prueba receta2', '2', '2');
+INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('7', 'recetaPub5', 'prueba receta2', '2', '2');
+INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('8', 'recetaPub6', 'prueba receta2', '2', '2');
+INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('3', 'receta2', 'prueba receta2', '2', '3');

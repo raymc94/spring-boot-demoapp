@@ -15,8 +15,9 @@
 
     <div class="row mt-3">
         <div class="col">
-            <p><a th:if="${filterMode == 1}" class="btn btn-primary" th:href="@{/recetas/publicas}"> Recetas publicas</a>
-        	<a  th:if="${filterMode == 2}" class="btn btn-primary" th:href="@{/mainboard}"> Mis Recetas</a>
+            <p><a th:if="${filterMode != 2}" class="btn btn-primary" th:href="@{/recetas/publicas}"> Recetas publicas</a>
+        	<a  th:if="${filterMode != 1}" class="btn btn-primary" th:href="@{/mainboard}"> Mis Recetas</a>
+        	<a  th:if="${filterMode != 3}" class="btn btn-primary" th:href="@{/recetas/favoritas}"> Favoritas</a>
             <table class="table table-striped">
                 <thead>
                 <tr>
@@ -27,11 +28,16 @@
                 <tbody>
                 <tr th:each="receta: ${recetas}">
                     <td> <a th:href="@{/recetas/{id}/overview(id=${receta.id})}" th:text="${receta.nombre}"/></td>
-                    <td th:if="${receta.idOwner == usuario.id}"   ><a class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/editar(id=${receta.id})}"/>editar</a>
+                    <td th:if="${receta.idOwner == usuario.id}"   ><a class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/editar(id=${receta.id})}">editar</a>
+                    	<a th:if="${!recetasFavoritas.contains(receta) && filterMode!=3}" class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/favorita/{origen}(id=${receta.id},origen=${filterMode})}">favorito</a>
+                    	<a th:if="${recetasFavoritas.contains(receta) || filterMode==3}" class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/favorita/quitar/{origen}(id=${receta.id},origen=${filterMode})}">quitar favorito</a>
                         <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
                            th:onclick="'del(\'/recetas/' + ${receta.id} + '\')'">borrar</button>
                     </td>
-                    <td th:if="${receta.idOwner != usuario.id}"></td>
+                    <td th:if="${receta.idOwner != usuario.id}">
+                    	<a th:if="${!recetasFavoritas.contains(receta) && filterMode!=3}" class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/favorita/{origen}(id=${receta.id},origen=${filterMode})}">favorito</a>
+                    	<a th:if="${recetasFavoritas.contains(receta) || filterMode==3}" class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/favorita/quitar/{origen}(id=${receta.id},origen=${filterMode})}">quitar favorito</a>
+                    </td>
                 </tr>
                 </tbody>
             </table>

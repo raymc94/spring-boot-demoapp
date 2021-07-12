@@ -18,6 +18,9 @@
 		    <li th:if="${usuario != null}"  class="nav-item">
 		    	<a class="nav-link" th:href="@{/mainboard}">Recetas</a>
 		    </li>
+		    <li th:if="${usuario != null}"  class="nav-item">
+		    	<a class="nav-link" th:href="@{/productos}">Ingredientes</a>
+		    </li>
 		  </ul>
 		  <ul class="navbar-nav ml-auto">
 		    <li th:if="${usuario != null}" class="nav-item dropdown">

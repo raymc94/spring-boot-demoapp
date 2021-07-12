@@ -1,2 +1,11 @@
 INSERT INTO usuarios (id, email, nombre, password, fecha_nacimiento) VALUES('1', 'rmc84@ua', 'Ruben Munoz', '123', '1994-04-18');
 INSERT INTO receta (id, nombre, descripcion, id_owner,type_receta) VALUES('1', 'receta1', 'prueba receta1', '1', '1');
+INSERT INTO producto (id, nombre, unidad) VALUES('1', 'leche', 'ml');
+INSERT INTO producto (id, nombre, unidad) VALUES('2', 'lentejas', 'gr');
+INSERT INTO producto (id, nombre, unidad) VALUES('3', 'arroz', 'gr');
+INSERT INTO producto (id, nombre, unidad) VALUES('4', 'agua', 'ml');
+INSERT INTO producto (id, nombre, unidad) VALUES('5', 'lechuga', 'hojas');
+INSERT INTO producto (id, nombre, unidad) VALUES('6', 'tomate', 'piezas');
+INSERT INTO producto (id, nombre, unidad) VALUES('7', 'pollo', 'gr');
+INSERT INTO producto (id, nombre, unidad) VALUES('8', 'ternera', 'gr');
+INSERT INTO producto (id, nombre, unidad) VALUES('9', 'patata', 'piezas');

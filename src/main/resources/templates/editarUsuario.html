@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')"></head>
+
+<body>
+<div class="container-fluid">
+
+    <h2 >Modificación del usuario</h2>
+
+    <form method="post" th:action="@{/usuario/editar}" th:object="${userData}">
+        <div class="col-6">
+	        <div class="form-group">
+	            <label for="titulo">Email:</label>
+	            <input class="form-control" id="email" name="email" required th:field="*{email}" type="text" disabled/>
+	        </div>
+	         <div class="form-group">
+	            <label for="descripcion">Nombre:</label>
+	            <input class="form-control" id="name" name="name" required th:field="*{name}" type="text"/>
+	        </div>	
+	         <div class="form-group">
+	            <label for="descripcion">Password:</label>
+	            <input class="form-control" id="password" name="password" required th:field="*{password}" type="text"/>
+	        </div>	
+	         <div class="form-group">
+                <label for="fechaNacimiento">Fecha de nacimiento</label>
+                <input id="fechaNacimiento" class="form-control" name="fechaNacimiento"
+                       placeholder="01-12-2019" type="datetime-local" th:field="*{fechaNacimiento}"/>
+            </div>   
+	        <button class="btn btn-primary" type="submit">Guardar cambios</button>
+	        <a class="btn btn-link" th:href="@{/mainboard}">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>

@@ -9,11 +9,14 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import demoapp.model.Producto;
 import demoapp.model.Usuario;
 import demoapp.service.UsuarioService;
+import pojo.ProductoData;
 import pojo.UserData;
 
 @Controller
@@ -85,6 +88,53 @@ public class LoginController {
         usuarioService.registrar(usuario);
         return "redirect:/login";
     	
+    }
+    
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+         session.setAttribute("idUsuarioLogeado", null);
+         return "redirect:/login";
+    }
+    
+    
+    @GetMapping("/usuario/editar")
+    public String formEditaUsuario(@ModelAttribute UserData userData,
+                                 Model model, HttpSession session) {
+
+        Usuario usuario = usuarioService.checkUsuarioLogeado(session);
+        
+        if (usuario == null) {
+        	return "redirect:/login";
+        }
+        
+        userData.setName(usuario.getNombre());
+        userData.setEmail(usuario.getEmail());
+        userData.setFechaNacimiento(usuario.getFechaNacimiento());
+
+        model.addAttribute("userData", userData);
+        
+        return "editarUsuario";
+    }
+    
+    @PostMapping("/usuario/editar")
+    public String guardaEditaProducto( @ModelAttribute UserData userData,
+                                       Model model, RedirectAttributes flash, HttpSession session) {
+       
+        Usuario usuario = usuarioService.checkUsuarioLogeado(session);
+        
+        if (usuario == null) {
+        	return "redirect:/login";
+        } else if (userData.getPassword() == null || "".equals(userData.getPassword())) {
+        	flash.addFlashAttribute("mensaje", "password obligatorio");
+        	return "redirect:/usuario/editar";
+        }
+        
+        usuario.setNombre(userData.getName());
+        usuario.setPassword(userData.getPassword());
+
+        usuarioService.actualizar(usuario);
+        flash.addFlashAttribute("mensaje", "usuario actualizado correctamente");
+        return "redirect:/productos";
     }
     
     

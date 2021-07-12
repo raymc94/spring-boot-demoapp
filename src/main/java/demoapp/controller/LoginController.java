@@ -39,7 +39,7 @@ public class LoginController {
 
           session.setAttribute("idUsuarioLogeado", usuario.getId());
           //redirigimos al mainboard
-          //return "redirect:/mainboard";
+          return "redirect:/mainboard";
             
         } else if (loginStatus == UsuarioService.LoginStatus.USER_NOT_FOUND) {
             model.addAttribute("error", "No existe usuario");

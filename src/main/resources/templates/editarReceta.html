@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')"></head>
+
+<body>
+<div class="container-fluid">
+
+    <h2 th:text="'Modificación de la receta ' + ${receta.getId()}"></h2>
+
+    <form method="post" th:action="@{/recetas/{id}/editar(id=${receta.id})}" th:object="${recetaData}">
+        <div class="col-6">
+        <div class="form-group">
+            <label for="titulo">Nombre de la receta:</label>
+            <input class="form-control" id="nombre" name="nombre" required th:field="*{nombre}" type="text"/>
+        </div>
+         <div class="form-group">
+            <label for="descripcion">Descripcion de la receta:</label>
+            <input class="form-control" id="descripcion" name="descripcion" required th:field="*{descripcion}" type="text"/>
+        </div>
+        <button class="btn btn-primary" type="submit">Modificar receta</button>
+        <a class="btn btn-link" th:href="@{/mainboard}">Cancelar</a>
+        </div>
+    </form>
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+</body>
+</html>

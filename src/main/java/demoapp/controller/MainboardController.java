@@ -60,7 +60,7 @@ public class MainboardController {
     }
     
     @PostMapping("/recetas/nueva")
-    public String nuevaTarea(@ModelAttribute RecetaData recetaData,
+    public String nuevaReceta(@ModelAttribute RecetaData recetaData,
                              Model model, RedirectAttributes flash,
                              HttpSession session) {
 
@@ -70,8 +70,8 @@ public class MainboardController {
          	return "redirect:/login";
          }
          
-         recetaService.nuevaRecetaUsuario(usuario.getId(), recetaData.getNombre(), recetaData.getDescripcion());
-         flash.addFlashAttribute("mensaje", "Tarea creada correctamente");
+         recetaService.nuevaRecetaUsuario(usuario.getId(), recetaData.getNombre(), recetaData.getDescripcion(), recetaData.getTypeReceta());
+         flash.addFlashAttribute("mensaje", "Receta creada correctamente");
 
         
         return "redirect:/mainboard";
@@ -96,6 +96,7 @@ public class MainboardController {
         model.addAttribute("receta", receta);
         recetaData.setNombre(receta.getNombre());
         recetaData.setDescripcion(receta.getDescripcion());
+        recetaData.setTypeReceta(receta.getTypeReceta());
         return "editarReceta";
     }
     
@@ -110,7 +111,7 @@ public class MainboardController {
         	return "redirect:/login";
         }
 
-        recetaService.modificaReceta(idReceta, recetaData.getNombre(), recetaData.getDescripcion());
+        recetaService.modificaReceta(idReceta, recetaData.getNombre(), recetaData.getDescripcion(), recetaData.getTypeReceta());
         flash.addFlashAttribute("mensaje", "Receta modificada correctamente");
         return "redirect:/mainboard";
     }

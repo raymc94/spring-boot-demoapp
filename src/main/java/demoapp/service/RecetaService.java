@@ -29,15 +29,16 @@ public class RecetaService {
     }
 
     @Transactional
-    public Receta nuevaRecetaUsuario(Long idUsuario, String nombreReceta, String descripcionReceta) {
+    public Receta nuevaRecetaUsuario(Long idUsuario, String nombreReceta, String descripcionReceta, Integer tipoReceta) {
         Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
         if (usuario == null) {
-            //throw new TareaServiceException("Usuario " + idUsuario + " no existe al crear tarea " + tituloTarea);
+            //throw new RecetaServiceException("Usuario " + idUsuario + " no existe al crear receta " + tituloReceta);
         }
         Receta receta = new Receta();
         receta.setIdOwner(idUsuario);
         receta.setNombre(nombreReceta);
         receta.setDescripcion(descripcionReceta);
+        receta.setTypeReceta(tipoReceta);
         recetaRepository.save(receta);
         return receta;
     }
@@ -46,7 +47,7 @@ public class RecetaService {
     public List<Receta> allRecetasUsuario(Long idUsuario) {
         Usuario usuario = usuarioRepository.findById(idUsuario).orElse(null);
         if (usuario == null) {
-            //throw new TareaServiceException("Usuario " + idUsuario + " no existe al listar tareas ");
+            //throw new RecetaServiceException("Usuario " + idUsuario + " no existe al listar recetas ");
         }
         
         
@@ -61,13 +62,14 @@ public class RecetaService {
     }
 
     @Transactional
-    public Receta modificaReceta(Long idReceta, String nuevoNombre, String nuevaDescripcion) {
+    public Receta modificaReceta(Long idReceta, String nuevoNombre, String nuevaDescripcion, Integer tipoReceta) {
         Receta receta = recetaRepository.findById(idReceta).orElse(null);
         if (receta == null) {
-            //throw new RecetaServiceException("No existe tarea con id " + idTarea);
+            //throw new RecetaServiceException("No existe receta con id " + idReceta);
         }
         receta.setNombre(nuevoNombre);
         receta.setDescripcion(nuevaDescripcion);
+        receta.setTypeReceta(tipoReceta);
         recetaRepository.save(receta);
         return receta;
     }
@@ -76,7 +78,7 @@ public class RecetaService {
     public void borraReceta(Long idReceta) {
         Receta receta = recetaRepository.findById(idReceta).orElse(null);
         if (receta == null) {
-            //throw new RecetaServiceException("No existe tarea con id " + idTarea);
+            //throw new RecetaServiceException("No existe receta con id " + idReceta);
         }
         recetaRepository.delete(receta);
     }

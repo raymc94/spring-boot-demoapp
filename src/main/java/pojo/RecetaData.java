@@ -6,7 +6,8 @@ public class RecetaData {
 	private Long idOwner;
 	private String nombre;
 	private String descripcion;
-	
+	private Integer typeReceta;
+	 
 	
 	public Long getId() {
 		return id;
@@ -32,6 +33,12 @@ public class RecetaData {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-
+	public Integer getTypeReceta() {
+		return typeReceta;
+	}
+	public void setTypeReceta(Integer typeReceta) {
+		this.typeReceta = typeReceta;
+	}
+	
 	
 }

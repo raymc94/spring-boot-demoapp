@@ -18,14 +18,12 @@
             <table class="table table-striped">
                 <thead>
                 <tr>
-                    <th>Id</th>
                     <th>Receta</th>
                     <th>Acción</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="receta: ${recetas}">
-                    <td th:text="${receta.id}"></td>
                     <td th:text="${receta.nombre}"></td>
                     <td><a class="btn btn-primary btn-xs" th:href="@{/recetas/{id}/editar(id=${receta.id})}"/>editar</a>
                         <button class="btn btn-danger btn-xs" onmouseover="" style="cursor: pointer;"
@@ -55,7 +53,7 @@
 
 <div th:replace="fragments::javascript"/>
 
-<!-- Ejemplo de uso de Ajax para lanzar una petición DELETE y borrar una tarea -->
+<!-- Ejemplo de uso de Ajax para lanzar una petición DELETE y borrar una receta -->
 
 <script type="text/javascript">
     function del(urlBorrar) {

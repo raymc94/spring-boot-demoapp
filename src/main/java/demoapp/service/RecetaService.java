@@ -55,6 +55,15 @@ public class RecetaService {
         recetaRepository.findByIdOwner(idUsuario).forEach(recetas::add);
         return recetas;
     }
+    
+    @Transactional(readOnly = true)
+    public List<Receta> allRecetasPublicas() {
+
+        
+        List<Receta> recetas = new ArrayList();
+        recetaRepository.findPublicRecetas().forEach(recetas::add);
+        return recetas;
+    }
 
     @Transactional(readOnly = true)
     public Receta findById(Long recetaId) {

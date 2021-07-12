@@ -54,6 +54,25 @@ public class MainboardController {
     	
     	List<Receta> recetas = recetaService.allRecetasUsuario(user.getId());
     	model.addAttribute("usuario", user);
+    	model.addAttribute("filterMode", 1);
+    	model.addAttribute("recetas", recetas);
+    	
+    	
+        return "listaRecetas";
+    }
+    
+    @GetMapping("/recetas/publicas")
+    public String listaRecetasPublicas(Model model, HttpSession session) {
+    	
+    	Usuario user = usuarioService.checkUsuarioLogeado(session);
+
+    	if (user == null) {
+    		return "redirect:/login";
+    	} 
+    	
+    	List<Receta> recetas = recetaService.allRecetasPublicas();
+    	model.addAttribute("usuario", user);
+    	model.addAttribute("filterMode", 2);
     	model.addAttribute("recetas", recetas);
     	
     	

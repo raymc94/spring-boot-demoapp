@@ -54,6 +54,11 @@ public class LoginController {
     
     @GetMapping("/register")
     public String registerForm(Model model) {
+    	
+    	
+    	Boolean adminExists = usuarioService.findAdminExists();
+    	
+        model.addAttribute("adminExists", adminExists);
         model.addAttribute("userData", new UserData());
         return "register";
     }
@@ -75,6 +80,7 @@ public class LoginController {
         usuario.setPassword(userData.getPassword());
         usuario.setFechaNacimiento(userData.getFechaNacimiento());
         usuario.setNombre(userData.getName());
+        usuario.setAdministrador(userData.getAdministrador());
 
         usuarioService.registrar(usuario);
         return "redirect:/login";

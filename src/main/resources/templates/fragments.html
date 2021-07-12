@@ -21,6 +21,9 @@
 		    <li th:if="${usuario != null}"  class="nav-item">
 		    	<a class="nav-link" th:href="@{/productos}">Ingredientes</a>
 		    </li>
+		    <li th:if="${usuario != null && usuario.administrador != null && usuario.administrador}"  class="nav-item">
+		    	<a class="nav-link" th:href="@{/usuarios}">Usuarios</a>
+		    </li>
 		  </ul>
 		  <ul class="navbar-nav ml-auto">
 		    <li th:if="${usuario != null}" class="nav-item dropdown">

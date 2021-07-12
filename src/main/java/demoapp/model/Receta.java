@@ -1,17 +1,16 @@
 package demoapp.model;
 
 import java.io.Serializable;
-import java.util.Date;
-import java.util.Objects;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -32,6 +31,10 @@ public class Receta implements Serializable {
     
     @Column(name = "type_receta")
     private Integer typeReceta;
+    
+    @OneToMany(mappedBy = "idReceta")
+    private Set<ProductoReceta> productosAsignados = new HashSet<ProductoReceta>();
+    
 	public Long getId() {
 		return id;
 	}
@@ -61,6 +64,12 @@ public class Receta implements Serializable {
 	}
 	public void setTypeReceta(Integer typeReceta) {
 		this.typeReceta = typeReceta;
+	}
+	public Set<ProductoReceta> getProductosAsignados() {
+		return productosAsignados;
+	}
+	public void setProductosAsignados(Set<ProductoReceta> productosAsignados) {
+		this.productosAsignados = productosAsignados;
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;

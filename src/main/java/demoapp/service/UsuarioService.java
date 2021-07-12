@@ -2,6 +2,8 @@ package demoapp.service;
 
 import java.util.Optional;
 
+import javax.servlet.http.HttpSession;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -90,5 +92,17 @@ public class UsuarioService {
     	}
     	
     	return ret;
+    }
+    
+    public Usuario checkUsuarioLogeado(HttpSession session) {
+        Long idUsuarioLogeado = (Long) session.getAttribute("idUsuarioLogeado");
+        
+        if(idUsuarioLogeado == null) {
+        	return null;
+        } else {
+        	Usuario user = findById(idUsuarioLogeado);
+        	return user;
+        }
+            
     }
 }

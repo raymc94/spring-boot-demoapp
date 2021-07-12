@@ -9,3 +9,6 @@ INSERT INTO producto (id, nombre, unidad) VALUES('6', 'tomate', 'piezas');
 INSERT INTO producto (id, nombre, unidad) VALUES('7', 'pollo', 'gr');
 INSERT INTO producto (id, nombre, unidad) VALUES('8', 'ternera', 'gr');
 INSERT INTO producto (id, nombre, unidad) VALUES('9', 'patata', 'piezas');
+INSERT INTO producto_receta (id_producto, id_receta, valor) VALUES('1', '1', '250');
+INSERT INTO producto_receta (id_producto, id_receta, valor) VALUES('2', '1', '250');
+INSERT INTO producto_receta (id_producto, id_receta, valor) VALUES('4', '1', '600');

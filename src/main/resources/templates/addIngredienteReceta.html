@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments :: head (titulo='Login')"></head>
+
+<body>
+<div class="container-fluid">
+	<div th:replace="fragments :: navbar"></div>
+
+    <div class="row mt-3">
+        <div class="col">
+            <h2>Agregar ingrediente</h2>
+        </div>
+    </div>
+
+
+    <div class="row mt-3">
+        <div class="col">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th>Ingrediente</th>
+                    <th>Unidad</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="ingrediente: ${productos}">
+                
+                
+                	<td>
+						<button type="button" class="btn btn-link"
+						th:data-nombre="${ingrediente.nombre}" th:data-unidad="${ingrediente.unidad}"
+						th:data-idReceta="${idReceta}" th:data-id="${ingrediente.id}"
+						onclick="addIngredient(this.getAttribute('data-idReceta'),this.getAttribute('data-id'), this.getAttribute('data-nombre'), this.getAttribute('data-unidad'));" th:text="${ingrediente.nombre}"/>
+					</td>
+                    <td th:text="${ingrediente.unidad}"></td>
+                    
+                </tr>
+                </tbody>
+            </table>    
+            <a class="btn btn-link" th:href="@{/recetas/{id}/overview(id=${idReceta})}">Atras</a></p>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${!#strings.isEmpty(mensaje)}">
+                <span th:text="${mensaje}"></span>
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="addIngredientModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Agregar ingrediente</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form method="post" th:action="@{/recetas/ingrediente/nuevo}" th:object="${productoRecetaData}">
+	        <div class="col-6">
+		        <div class="form-group">
+		            <label for="titulo">Ingrediente:</label>
+		            <label id="nombreLabel"></label>
+		            <input class="form-control" id="idProducto" name="idProducto" required th:field="*{idProducto}" type="hidden"/>
+		            <input class="form-control" id="idReceta" name="idReceta" required th:field="*{idReceta}" type="hidden"/>
+		        </div>
+		         <div class="form-group">
+		            <label for="descripcion">Cantidad:</label>
+		            <div class="col-8">
+		            	<input class="form-control" id=valor name="valor" required th:field="*{valor}" type="text"/>
+		            </div>
+		            <div class="col-4">
+		            	<label id="unidadLabel"/>
+		            </div>
+		        </div>
+		       
+	         
+		        <button class="btn btn-primary" type="submit">Agregar producto</button>
+	        </div>
+    	</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+
+<div th:replace="fragments::javascript"/>
+
+<!-- Ejemplo de uso de Ajax para lanzar una petición DELETE y borrar una receta -->
+
+<script type="text/javascript">
+    function addIngredient(idReceta,idProducto,nombreProducto,unidadProducto) {
+    	
+    	$('#nombreLabel').text(nombreProducto);
+    	$('#unidadLabel').text(unidadProducto);
+    	$('#idProducto').val(idProducto);
+    	$('#idReceta').val(idReceta);
+    	$('#addIngredientModal').modal();
+    }
+</script>
+
+</body>
+</html>
